@@ -14,6 +14,11 @@ body {
     background-color: var(--sdsu-color);
 }
 
+form {
+    width: 20rem;
+    height: auto;
+}
+
 /* Navigation Bar */
 .nav-bar {
   position: fixed;
@@ -135,6 +140,12 @@ label[for="id_confirm_password"] {
 .login-section button:hover {
   background-color: var(--white);
   border: 2px solid black;
+  color: black;
+}
+
+.reset-link {
+  margin-top: 1rem;
+  font-size: 0.95rem;
   color: black;
 }
 

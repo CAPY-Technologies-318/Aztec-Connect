@@ -14,3 +14,19 @@ class LoginForm(forms.Form):
         if cleaned_data.get("confirm_password"):
             if cleaned_data["password"] != cleaned_data["confirm_password"]:
                 self.add_error("confirm_password", "Passwords do not match.")
+
+class PasswordResetForm(forms.Form): 
+    email = forms.EmailField(
+        max_length=254, 
+        error_messages={
+            "required": "Email is required.",
+            "invalid": "Enter a valid email address."
+        }
+    )
+    verification_code = forms.CharField(
+        max_length=6, 
+        error_messages={
+            "required": "Verification code is required.",
+            "invalid": "Enter a valid verification code."
+        }
+    )

@@ -30,28 +30,37 @@
                 </label>
 
                 <button type="submit">Login</button>
+                <a class="reset-link" href="{% url 'reset_password' %}">Forgot Password?</a>
             </form>
         </div>
     </div>
     
     <script>
+        // Declare this outside the function so it's accessible
         function toggleConfirmPasswordField() {
             const checkbox = document.getElementById('create');
             const confirmPasswordField = document.getElementById('id_confirm_password');
             const confirmPasswordLabel = document.querySelector('label[for="id_confirm_password"]');
-            confirmPasswordField.style.display = checkbox.checked ? "block" : "none";
-            confirmPasswordLabel.style.display = checkbox.checked ? "block" : "none";
-
-            window.onload = () => {
-                toggleConfirmPasswordField();
-
-                // Optional: attach listener in case HTML was rendered statically
-                const checkbox = document.getElementById('create');
-                if (checkbox) {
-                    checkbox.addEventListener('change', toggleConfirmPasswordField);
-                }
-            };
+            const header = document.querySelector('.login-header');
+    
+            const show = checkbox.checked;
+    
+            // Toggle visibility
+            confirmPasswordField.style.display = show ? "block" : "none";
+            confirmPasswordLabel.style.display = show ? "block" : "none";
+    
+            // Update header text
+            header.textContent = show ? "Create Account" : "Login";
         }
-    </script>
+    
+        // Run once the page is fully loaded
+        window.addEventListener("DOMContentLoaded", function () {
+            const checkbox = document.getElementById('create');
+            if (checkbox) {
+                toggleConfirmPasswordField(); // Set initial state
+                checkbox.addEventListener('change', toggleConfirmPasswordField); // Respond to click
+            }
+        });
+    </script>    
 </body>
 </html>
