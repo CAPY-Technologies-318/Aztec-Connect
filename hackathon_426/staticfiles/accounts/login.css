@@ -1,0 +1,60 @@
+:root {
+    --dark-orange: #FF4D00;
+    --nav-bar-color: #3C1518;
+    --nav-hover-color: #69140E;
+    --dark-bean: #3C1518;
+    --white: white;
+    --prince-orange: #ffc574;
+    --section: #ffce8a;
+    --brown: #A44200;
+  }
+  
+  * {
+      font-family: 'Times New Roman', Times, serif;
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+  } 
+
+/* Navigation Bar */
+.nav-bar {
+    position: fixed;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: var(--nav-bar-color);
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    box-sizing: border-box;
+    overflow: hidden;
+    transition: top 0.3s;
+  }
+  
+  .nav-bar-img {
+    height: auto;
+    width:  2.5rem; 
+    padding: 5px 5px;
+    box-sizing: initial;
+  }
+
+  #confirmPasswordField {
+    display: none; 
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 60px); 
+}
+
+.login-section {
+    background-color: white;
+    padding: 1.5rem; 
+    border-radius: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    text-align: center;
+}
