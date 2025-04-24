@@ -1,40 +1,50 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login 
-from .forms import LoginForm, PasswordResetForm, AccountDetailsForm
-from django.contrib.auth.decorators import login_required
-
-# Create your views here.
-def login_view(request): 
-    form = LoginForm(request.POST or None)
-    if form.is_valid(): 
-        username = form.cleaned_data.get("username")
-        password = form.cleaned_data.get("password")
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect("home")
-        else:
-            form.add_error(None, "Invalid credentials")
-
-    return render(request, "accounts/login.html", {"form": form})
-
-def password_reset_view(request):
-    form = PasswordResetForm(request.POST or None)
-    if form.is_valid():
-        email = form.cleaned_data.get("email")
-        verification_code = form.cleaned_data.get("verification_code")
-        return redirect("password_reset_done")
-
-    return render(request, "accounts/password_reset.html", {"form": form})
+from django.shortcuts import get_object_or_404, render, redirect
+from .models import newSubmission 
+from .forms import LoginForm, AccountDetailsForm, ResetPasswordForm
 
 def home_view(request):
     return render(request, "accounts/home.html")
 
+def login_view(request): 
+    create_mode = 'create' in request.POST
+    form = LoginForm(request.POST or None, create_mode=create_mode)
+
+    if request.method == "POST":
+        if form.is_valid():
+            if create_mode:
+                submission = form.save()
+                request.session['submission_id'] = submission.id
+                return redirect('account_details')
+            else:
+                try:
+                    submission = newSubmission.objects.get(
+                        username=form.cleaned_data['username'])
+                    password = form.cleaned_data['password']
+                    if submission.password != password:
+                        form.add_error(None, "Incorrect username or password.")
+                    else:
+                        request.session['submission_id'] = submission.id
+                        return redirect('home')
+                except newSubmission.DoesNotExist:
+                    form.add_error(None, "Invalid username or password.")
+    return render(request, "accounts/login.html", {"form": form})
+
+def reset_password_view(request):
+    # TODO: Implement password reset logic
+    form = ResetPasswordForm(request.POST or None)
+    return render(request, "accounts/reset_password.html", {"form": form})
+
 def account_details_view(request):
-    form = AccountDetailsForm(request.POST or None)
-    if form.is_valid():
-        # Here you would typically save the data to your database
-        # For now, we'll just redirect to home after successful submission
-        return redirect('home')
+    submission_id = request.session.get('submission_id')
+    submission = get_object_or_404(newSubmission, id=submission_id)
+    form = AccountDetailsForm(request.POST or None, instance=submission)
+
+    if request.method == "POST":
+        if form.is_valid():
+            form.save()
+            del request.session['submission_id']
+            return redirect('home')
+    else:
+        form = AccountDetailsForm(instance=submission)
     
     return render(request, 'accounts/account_details.html', {'form': form})

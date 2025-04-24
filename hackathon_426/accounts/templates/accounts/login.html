@@ -28,8 +28,23 @@
                     <input id="create" type="checkbox" name="create" onclick="toggleConfirmPasswordField()"/>
                     Click to create a new account!
                 </label>
-
                 <button type="submit">Login</button>
+                {% if form.username.errors %}
+                    <div class="error-message">{{ form.username.errors.0 }}</div>
+                {% endif %}
+                {% if form.password.errors %}
+                    <div class="error-message">{{ form.password.errors.0 }}</div>
+                {% endif %}
+                {% if form.confirm_password.errors %}
+                    <div class="error-message">{{ form.confirm_password.errors.0 }}</div>
+                {% endif %}
+                {% if form.non_field_errors %}
+                    <div class="error-message">
+                        {% for error in form.non_field_errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
                 <a class="reset-link" href="{% url 'reset_password' %}">Forgot Password?</a>
             </form>
         </div>
@@ -42,15 +57,17 @@
             const confirmPasswordField = document.getElementById('id_confirm_password');
             const confirmPasswordLabel = document.querySelector('label[for="id_confirm_password"]');
             const header = document.querySelector('.login-header');
+            const button = document.querySelector('button[type="submit"]');
     
             const show = checkbox.checked;
     
             // Toggle visibility
             confirmPasswordField.style.display = show ? "block" : "none";
             confirmPasswordLabel.style.display = show ? "block" : "none";
-    
+            
             // Update header text
             header.textContent = show ? "Create Account" : "Login";
+            button.textContent = show ? "Create Account" : "Login";
         }
     
         // Run once the page is fully loaded

@@ -1,43 +1,53 @@
 from django import forms
+from .models import newSubmission
 
-class LoginForm(forms.Form): 
-    username = forms.CharField()
-    password = forms.CharField(widget=forms.PasswordInput)
+class LoginForm(forms.ModelForm): 
+    class Meta:
+        model = newSubmission
+        fields = ["username", "password", "confirm_password"]
+        widgets = {
+            'password': forms.PasswordInput(attrs={'autocomplete': 'current-password'}),
+        }
+    
     confirm_password = forms.CharField(
-        widget=forms.PasswordInput, 
-        required=False, 
-        label="Confirm Password"
+        label="Confirm Password",
+        widget=forms.PasswordInput(attrs={'autocomplete': 'current-password'}),
+        required=False
     )
+
+    def __init__(self, *args, **kwargs):
+        self.create_mode = kwargs.pop('create_mode', False)
+        super().__init__(*args, **kwargs)
 
     def clean(self):
         cleaned_data = super().clean()
-        if cleaned_data.get("confirm_password"):
-            if cleaned_data["password"] != cleaned_data["confirm_password"]:
+        username = cleaned_data.get("username")
+        password = cleaned_data.get("password")
+        confirm_password = cleaned_data.get("confirm_password")
+        if self.create_mode:
+            if newSubmission.objects.filter(username=username).exists():
+                self.add_error("username", "Username already exists.")
+            if password != confirm_password:
                 self.add_error("confirm_password", "Passwords do not match.")
+        if self.create_mode and not username or not password:
+            raise forms.ValidationError("Username and password are required.")
 
-class PasswordResetForm(forms.Form): 
-    email = forms.EmailField(
-        max_length=254, 
-        error_messages={
-            "required": "Email is required.",
-            "invalid": "Enter a valid email address."
+class ResetPasswordForm(forms.ModelForm): 
+    class Meta:
+        model = newSubmission
+        fields = ["email", "verification_code"]
+        widgets = {
+            'verification_code': forms.PasswordInput(attrs={'autocomplete': 'current-password'}),
         }
-    )
-    verification_code = forms.CharField(
-        max_length=6, 
-        error_messages={
-            "required": "Verification code is required.",
-            "invalid": "Enter a valid verification code."
-        }
-    )
-
-class AccountDetailsForm(forms.Form):
-    name = forms.CharField(max_length=100)
-    major = forms.CharField(max_length=100)
-    gender = forms.CharField(max_length=50)
-    race = forms.CharField(max_length=100)
-    sports = forms.CharField(max_length=100)
 
     def clean(self):
         cleaned_data = super().clean()
-        return cleaned_data
+        if cleaned_data.get("verification_code"):
+            if len(cleaned_data["verification_code"]) != 6:
+                self.add_error("verification_code", "Verification code must be 6 digits.")
+
+class AccountDetailsForm(forms.ModelForm):
+    class Meta:
+        model = newSubmission
+        fields = ["name", "major", "gender", "race", "sports"]
+        

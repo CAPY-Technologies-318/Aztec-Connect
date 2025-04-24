@@ -149,6 +149,13 @@ label[for="id_confirm_password"] {
   color: black;
 }
 
+.error-message {
+  color: red;
+  font-size: 0.9em;
+  margin-top: 4px;
+}
+
+
 
 
 
