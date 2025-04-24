@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login 
-from .forms import LoginForm, PasswordResetForm
+from .forms import LoginForm, PasswordResetForm, AccountDetailsForm
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def login_view(request): 
@@ -28,3 +29,12 @@ def password_reset_view(request):
 
 def home_view(request):
     return render(request, "accounts/home.html")
+
+def account_details_view(request):
+    form = AccountDetailsForm(request.POST or None)
+    if form.is_valid():
+        # Here you would typically save the data to your database
+        # For now, we'll just redirect to home after successful submission
+        return redirect('home')
+    
+    return render(request, 'accounts/account_details.html', {'form': form})

@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'accounts/css/account_details.css' %}">
+    <title>Account Details</title>
+</head>
+<body>
+    <!--Nav Bar-->
+    <ul class="nav-bar">
+        <a href=""><img class="nav-bar-img" src="{% static 'accounts/images/logo.png' %}" alt="SDSU Logo"></a>
+    </ul>
+
+    <!--Account Details Form-->
+    <div class="container">
+        <div class="login-section">
+            <h2 class="login-header">A little bit about yourself?</h2>
+            <form method="POST" action="{% url 'account_details' %}">
+                {% csrf_token %}
+                
+                <label for="name">Name (First & Last)</label>
+                <input type="text" id="name" name="name" required>
+                
+                <label for="major">Major</label>
+                <input type="text" id="major" name="major" required>
+                
+                <label for="gender">Gender</label>
+                <input type="text" id="gender" name="gender" required>
+                
+                <label for="race">Race/Ethnicity</label>
+                <input type="text" id="race" name="race" required>
+                
+                <label for="sports">Interested in joining a sports club?</label>
+                <input type="text" id="sports" name="sports" required>
+
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

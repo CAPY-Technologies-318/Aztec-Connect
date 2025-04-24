@@ -30,3 +30,14 @@ class PasswordResetForm(forms.Form):
             "invalid": "Enter a valid verification code."
         }
     )
+
+class AccountDetailsForm(forms.Form):
+    name = forms.CharField(max_length=100)
+    major = forms.CharField(max_length=100)
+    gender = forms.CharField(max_length=50)
+    race = forms.CharField(max_length=100)
+    sports = forms.CharField(max_length=100)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        return cleaned_data
