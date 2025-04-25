@@ -36,16 +36,21 @@ def reset_password_view(request):
     return render(request, "accounts/reset_password.html", {"form": form})
 
 def account_details_view(request):
-    submission_id = request.session.get('submission_id')
-    submission = get_object_or_404(newSubmission, id=submission_id)
-    form = AccountDetailsForm(request.POST or None, instance=submission)
-
-    if request.method == "POST":
+    if request.method == 'POST':
+        form = AccountDetailsForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('home')
+            # Create a new submission instance
+            submission = newSubmission(
+                name=form.cleaned_data['name'],
+                major=form.cleaned_data['major'],
+                gender=form.cleaned_data['gender'],
+                race=form.cleaned_data['race'],
+                sports=form.cleaned_data['sports']
+            )
+            submission.save()
+            return redirect('home')  # Redirect to home page after successful submission
     else:
-        form = AccountDetailsForm(instance=submission)
+        form = AccountDetailsForm()
     
     return render(request, 'accounts/account_details.html', {'form': form})
 
