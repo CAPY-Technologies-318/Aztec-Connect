@@ -87,11 +87,34 @@ def home(request):
     stem_clubs = Club.objects.filter(category='STEM')[:4]
     sports_clubs = Club.objects.filter(category='SPORTS')[:4]
     culture_clubs = Club.objects.filter(category='CULTURE')[:4]
+    
+    # Create recommended clubs context
+    recommended_clubs = [
+        {
+            'id': 'recommended1',
+            'name': 'SDSU Strong Girls',
+            'description': 'A movement empowering girls to be strong, confident, and believe in themselves through fitness and mentorship.',
+            'image': 'sdsustronggirls.jpg'
+        },
+        {
+            'id': 'recommended2',
+            'name': 'Intramural Sports Co-ed',
+            'description': 'Join our championship-winning intramural sports program for fun, competitive play across multiple sports and make lifelong friends.',
+            'image': 'intramuralSportsCo-ed.png'
+        },
+        {
+            'id': 'recommended3',
+            'name': 'SDSU Salsa Club',
+            'description': 'Learn to dance salsa and experience Latin culture through music, events, and performances with an enthusiastic community.',
+            'image': 'salsaclub.jpeg'
+        }
+    ]
 
     context = {
         'stem_clubs': stem_clubs,
         'sports_clubs': sports_clubs,
         'culture_clubs': culture_clubs,
+        'recommended_clubs': recommended_clubs,
     }
     
     return render(request, 'clubs/home.html', context)

@@ -2,56 +2,36 @@
 {% load static %}
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'clubs/home.css' %}">
+<style>
+    .recommendation-title {
+        font-size: 2.5rem;
+        color: #cf2e2e;
+        margin: 2rem 0;
+        text-align: center;
+        font-weight: bold;
+        text-transform: uppercase;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+</style>
 {% endblock %}
 
 {% block content %}
 <div class="container">
-    <!-- STEM Clubs Section -->
-    <h2 class="section-title">STEM Clubs</h2>
+    <!-- Recommendations Section -->
+    <h2 class="recommendation-title">Recommendations!</h2>
     <div class="club-grid">
-        {% for club in stem_clubs %}
+        {% for club in recommended_clubs %}
         <div class="club-card">
-            <img src="{{ club.banner.url }}" alt="{{ club.name }}" class="club-image">
+            <img src="{% static 'clubs/images/'|add:club.image %}" alt="{{ club.name }}" class="club-image">
             <div class="club-info">
                 <h3 class="club-title">{{ club.name }}</h3>
-                <p class="club-description">{{ club.description|truncatewords:20 }}</p>
-                <a href="{% url 'club_detail' club.id %}" class="btn btn-primary">Learn More</a>
+                <p class="club-description">{{ club.description }}</p>
+                <a href="{% url 'explore' %}" class="btn btn-primary">Learn More</a>
             </div>
         </div>
         {% endfor %}
     </div>
-
-    <!-- Sports Clubs Section -->
-    <h2 class="section-title">Sports Clubs</h2>
-    <div class="club-grid">
-        {% for club in sports_clubs %}
-        <div class="club-card">
-            <img src="{{ club.banner.url }}" alt="{{ club.name }}" class="club-image">
-            <div class="club-info">
-                <h3 class="club-title">{{ club.name }}</h3>
-                <p class="club-description">{{ club.description|truncatewords:20 }}</p>
-                <a href="{% url 'club_detail' club.id %}" class="btn btn-primary">Learn More</a>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
-
-    <!-- Culture Clubs Section -->
-    <h2 class="section-title">Culture Clubs</h2>
-    <div class="club-grid">
-        {% for club in culture_clubs %}
-        <div class="club-card">
-            <img src="{{ club.banner.url }}" alt="{{ club.name }}" class="club-image">
-            <div class="club-info">
-                <h3 class="club-title">{{ club.name }}</h3>
-                <p class="club-description">{{ club.description|truncatewords:20 }}</p>
-                <a href="{% url 'club_detail' club.id %}" class="btn btn-primary">Learn More</a>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
-
 
     <a href="{% url 'explore' %}" class="explore-more">EXPLORE MORE</a>
 </div>
-{% endblock %} 
+{% endblock %}
