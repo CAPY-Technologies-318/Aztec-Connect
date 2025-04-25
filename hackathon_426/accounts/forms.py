@@ -46,8 +46,10 @@ class ResetPasswordForm(forms.ModelForm):
             if len(cleaned_data["verification_code"]) != 6:
                 self.add_error("verification_code", "Verification code must be 6 digits.")
 
-class AccountDetailsForm(forms.ModelForm):
-    class Meta:
-        model = newSubmission
-        fields = ["name", "major", "gender", "race", "sports"]
+class AccountDetailsForm(forms.Form):
+    name = forms.CharField(max_length=100)
+    major = forms.ChoiceField(choices=newSubmission.MAJOR_CHOICES)
+    gender = forms.ChoiceField(choices=newSubmission.GENDER_CHOICES)
+    race = forms.ChoiceField(choices=newSubmission.RACE_CHOICES)
+    sports = forms.ChoiceField(choices=newSubmission.SPORTS_CHOICES)
         
