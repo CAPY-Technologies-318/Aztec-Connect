@@ -1,0 +1,8 @@
+{% load static %}
+<h2>{{ club.name }}</h2>
+<img src="{{ club.banner.url }}">
+<img src="{{ club.logo.url }}" style="width: 100px;">
+<p>{{ club.description }}</p>
+<p><strong>Benefits:</strong> {{ club.benefits }}</p>
+<p><strong>Goals:</strong> {{ club.goals }}</p>
+<p><strong>Meets on:</strong> {{ club.meeting_dates }} at {{ club.meeting_times }}</p>

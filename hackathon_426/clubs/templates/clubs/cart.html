@@ -1,0 +1,11 @@
+{% load static %}
+<h2>Your Cart</h2>
+{% for interaction in cart %}
+  <div class="club-item">
+    <h3>{{ interaction.club.name }}</h3>
+    <a href="{% url 'club_detail' interaction.club.id %}">View Details</a>
+    <a href="{% url 'join_club' interaction.club.id %}">Join Club</a>
+  </div>
+{% empty %}
+  <p>No clubs in cart.</p>
+{% endfor %}

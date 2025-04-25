@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import User
+import random
 
 # Create your models here.
 class newSubmission(models.Model):
@@ -12,8 +14,14 @@ class newSubmission(models.Model):
     gender = models.CharField(max_length=50)
     race = models.CharField(max_length=100)
     sports = models.CharField(max_length=100)
+
+    def generate_verification_code(self):
+        self.verification_code = str(random.randint(100000, 999999))
+        self.save()
+    
     def __str__(self):
         return self.username
+
 
 
 

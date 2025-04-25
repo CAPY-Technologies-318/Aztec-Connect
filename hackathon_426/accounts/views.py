@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404, render, redirect
-from .models import newSubmission 
+from .models import newSubmission
 from .forms import LoginForm, AccountDetailsForm, ResetPasswordForm
+from django.contrib.auth.decorators import login_required
 
 def home_view(request):
     return render(request, "accounts/home.html")
@@ -42,9 +43,12 @@ def account_details_view(request):
     if request.method == "POST":
         if form.is_valid():
             form.save()
-            del request.session['submission_id']
             return redirect('home')
     else:
         form = AccountDetailsForm(instance=submission)
     
     return render(request, 'accounts/account_details.html', {'form': form})
+
+def logout_view(request):
+    request.session.flush() 
+    return redirect('login')  

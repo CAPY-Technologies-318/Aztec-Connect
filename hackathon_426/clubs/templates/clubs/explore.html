@@ -1,0 +1,73 @@
+{% load static %}
+<h2>Explore Clubs</h2>
+
+{% for club in clubs %}
+  <div class="club-card" data-club-id="{{ club.id }}" {% if not forloop.first %}style="display:none;"{% endif %}>
+    <img src="{{ club.banner.url }}" alt="Banner" style="width: 100%;">
+    <img src="{{ club.logo.url }}" alt="Logo" style="width: 100px;">
+    <h3>{{ club.name }}</h3>
+    <p>{{ club.description }}</p>
+    <p><strong>Meets:</strong> {{ club.meeting_times }}</p>
+  </div>
+{% empty %}
+  <p>No more clubs to show.</p>
+{% endfor %}
+
+<p>Use your arrow keys: ← to dislike, → to like</p>
+
+<script>
+  const cards = document.querySelectorAll('.club-card');
+  let current = 0;
+
+  async function swipe(action) {
+    const card = cards[current];
+    const clubId = card.dataset.clubId;
+
+    // Hide current card
+    card.style.display = 'none';
+    current++;
+
+    // Show next card if it exists
+    if (current < cards.length) {
+      cards[current].style.display = 'block';
+    } else {
+      alert("🎉 You've reached the end!");
+    }
+
+    // Send swipe to backend without reload
+    try {
+      await fetch(`/clubs/swipe/${clubId}/${action}/`, {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': getCookie('csrftoken'),
+        },
+      });
+    } catch (err) {
+      console.error("Swipe failed:", err);
+    }
+  }
+
+  document.addEventListener('keydown', function(event) {
+    if (event.key === "ArrowRight") {
+      swipe('like');
+    } else if (event.key === "ArrowLeft") {
+      swipe('dislike');
+    }
+  });
+
+  // CSRF helper
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+</script>
