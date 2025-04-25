@@ -1,0 +1,130 @@
+{% extends 'clubs/base.html' %}
+{% load static %}
+
+
+{% block extra_css %}
+<style>
+    .club-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+        padding: 2rem;
+    }
+
+
+    .club-card {
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+    }
+
+
+    .club-card:hover {
+        transform: translateY(-5px);
+    }
+
+
+    .club-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
+
+    .club-info {
+        padding: 1.5rem;
+    }
+
+
+    .club-title {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+        color: #333;
+    }
+
+
+    .club-description {
+        color: #666;
+        margin-bottom: 1rem;
+    }
+
+
+    .section-title {
+        font-size: 2rem;
+        color: #333;
+        margin: 2rem 0;
+        text-align: center;
+        font-weight: bold;
+    }
+
+
+    .explore-more {
+        display: block;
+        text-align: center;
+        margin: 2rem auto;
+        padding: 1rem 2rem;
+        background-color: #cf2e2e;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        width: fit-content;
+    }
+</style>
+{% endblock %}
+
+
+{% block content %}
+<div class="container">
+    <!-- STEM Clubs Section -->
+    <h2 class="section-title">STEM Clubs</h2>
+    <div class="club-grid">
+        {% for club in stem_clubs %}
+        <div class="club-card">
+            <img src="{{ club.banner.url }}" alt="{{ club.name }}" class="club-image">
+            <div class="club-info">
+                <h3 class="club-title">{{ club.name }}</h3>
+                <p class="club-description">{{ club.description|truncatewords:20 }}</p>
+                <a href="{% url 'club_detail' club.id %}" class="btn btn-primary">Learn More</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+
+    <!-- Sports Clubs Section -->
+    <h2 class="section-title">Sports Clubs</h2>
+    <div class="club-grid">
+        {% for club in sports_clubs %}
+        <div class="club-card">
+            <img src="{{ club.banner.url }}" alt="{{ club.name }}" class="club-image">
+            <div class="club-info">
+                <h3 class="club-title">{{ club.name }}</h3>
+                <p class="club-description">{{ club.description|truncatewords:20 }}</p>
+                <a href="{% url 'club_detail' club.id %}" class="btn btn-primary">Learn More</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+
+    <!-- Culture Clubs Section -->
+    <h2 class="section-title">Culture Clubs</h2>
+    <div class="club-grid">
+        {% for club in culture_clubs %}
+        <div class="club-card">
+            <img src="{{ club.banner.url }}" alt="{{ club.name }}" class="club-image">
+            <div class="club-info">
+                <h3 class="club-title">{{ club.name }}</h3>
+                <p class="club-description">{{ club.description|truncatewords:20 }}</p>
+                <a href="{% url 'club_detail' club.id %}" class="btn btn-primary">Learn More</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+
+    <a href="{% url 'explore' %}" class="explore-more">EXPLORE MORE</a>
+</div>
+{% endblock %} 

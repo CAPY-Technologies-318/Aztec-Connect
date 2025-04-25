@@ -1,20 +1,43 @@
 {% load static %}
-<h2>Explore Clubs</h2>
+<link rel="stylesheet" href="{% static 'clubs/explore.css' %}">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
 
-{% for club in clubs %}
-  <div class="club-card" data-club-id="{{ club.id }}" {% if not forloop.first %}style="display:none;"{% endif %}>
-    <img src="{{ club.banner.url }}" alt="Banner" style="width: 100%;">
-    <img src="{{ club.logo.url }}" alt="Logo" style="width: 100px;">
-    <h3>{{ club.name }}</h3>
-    <p>{{ club.description }}</p>
-    <p><strong>Meets:</strong> {{ club.meeting_times }}</p>
-  </div>
-{% empty %}
-  <p>No more clubs to show.</p>
-{% endfor %}
+<!-- Navigation Bar -->
+<ul class="nav-bar">
+  <a href=""><img class="nav-bar-img" src="{% static 'clubs/images/logo.png' %}" alt="CAPY Technologies Logo"></a>
+  <a class="logout" href="{% url 'logout' %}"><i class="fas fa-lock"></i>Logout</a>
+</ul>
 
-<p>Use your arrow keys: ← to dislike, → to like</p>
+<section class="explore-container">
+  <h2 class="explore-title">Explore Clubs</h2>
 
+  {% for club in clubs %}
+    <div class="club-card" data-club-id="{{ club.id }}" {% if not forloop.first %}style="display:none;"{% endif %}>
+      {% if club.banner %}
+        <img class="club-banner" src="{{ club.banner.url }}" alt="Banner">
+      {% endif %}
+      <div class="club-info">
+        {% if club.logo %}
+          <img class="club-logo" src="{{ club.logo.url }}" alt="Logo">
+        {% endif %}
+        <div class="club-text">
+          <h3>{{ club.name }}</h3>
+          <p><strong>Description:</strong> {{ club.description }}</p>
+          <p><strong>Meeting Dates:</strong> {{ club.meeting_dates }}</p>
+          <p><strong>Meeting Times:</strong> {{ club.meeting_times }}</p>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+
+  <p class="swipe-tip">Use your arrow keys: ← to dislike, → to like</p>
+
+  <form method="post" action="{% url 'reset_swipes' %}" class="reset-form">
+    {% csrf_token %}
+    <button type="submit" class="reset-btn">Reset My Swipes</button>
+  </form>
+</section>
+  
 <script>
   const cards = document.querySelectorAll('.club-card');
   let current = 0;

@@ -3,7 +3,13 @@ from accounts.models import newSubmission as User
 import random
 
 class Club(models.Model):
+    CATEGORY_CHOICES = [
+    ('STEM', 'STEM'),
+    ('SPORTS', 'Sports'),
+    ('CULTURE', 'Culture'),
+    ]
     name = models.CharField(max_length=100)
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='CULTURE')
     logo = models.ImageField(upload_to='club_logos/')
     banner = models.ImageField(upload_to='club_banners/')
     description = models.TextField()
