@@ -21,6 +21,8 @@
                 {% csrf_token %}
                 {{ form.username.label_tag }} {{ form.username }}
                 <br>
+                {{form.email.label_tag}} {{ form.email }}
+                <br>
                 {{ form.password.label_tag }} {{ form.password }}
                 <br>
                 {{ form.confirm_password.label_tag }} {{ form.confirm_password }}

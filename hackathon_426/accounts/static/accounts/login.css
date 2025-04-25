@@ -95,7 +95,8 @@ label[for="id_confirm_password"] {
 }
 
 .login-section input[type="text"],
-.login-section input[type="password"] {
+.login-section input[type="password"],
+.login-section input[type="email"] {
   width: 100%;
   max-width: 400px;
   padding: 0.75rem;
@@ -107,7 +108,8 @@ label[for="id_confirm_password"] {
 }
 
 .login-section input[type="text"]:focus,
-.login-section input[type="password"]:focus {
+.login-section input[type="password"]:focus,
+.login-section input[type="email"]:focus {
   outline: none;
   border-color: black;
 }

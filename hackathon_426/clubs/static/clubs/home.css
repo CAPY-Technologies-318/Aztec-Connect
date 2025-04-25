@@ -62,7 +62,7 @@
     background-color: white;
     color: black;
     text-decoration: none;
-    border-radius: 5px;
+    border-radius: 15px;
     border: 2px solid black;
     width: fit-content;
     transition: background-color 0.3s ease;

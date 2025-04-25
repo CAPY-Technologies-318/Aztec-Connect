@@ -4,7 +4,7 @@ from .models import newSubmission
 class LoginForm(forms.ModelForm): 
     class Meta:
         model = newSubmission
-        fields = ["username", "password", "confirm_password"]
+        fields = ["username", "password", "email", "confirm_password"]
         widgets = {
             'password': forms.PasswordInput(attrs={'autocomplete': 'current-password'}),
         }
@@ -15,6 +15,11 @@ class LoginForm(forms.ModelForm):
         required=False
     )
 
+    email = forms.EmailField(
+        label="Email",
+        required=True
+    )
+
     def __init__(self, *args, **kwargs):
         self.create_mode = kwargs.pop('create_mode', False)
         super().__init__(*args, **kwargs)
@@ -23,10 +28,13 @@ class LoginForm(forms.ModelForm):
         cleaned_data = super().clean()
         username = cleaned_data.get("username")
         password = cleaned_data.get("password")
+        email = cleaned_data.get("email")
         confirm_password = cleaned_data.get("confirm_password")
         if self.create_mode:
             if newSubmission.objects.filter(username=username).exists():
                 self.add_error("username", "Username already exists.")
+            if newSubmission.objects.filter(email=email).exists():
+                self.add_error("email", "Email already exists.")
             if password != confirm_password:
                 self.add_error("confirm_password", "Passwords do not match.")
         if self.create_mode and not username or not password:
