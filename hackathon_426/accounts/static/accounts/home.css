@@ -102,6 +102,110 @@ body {
     z-index: 1; /* ensure it's above the overlay */
   }
 
+  /* Features Section */
+.features {
+  margin-top: 2.5rem;
+  padding: 80px 40px;
+  background: #f8f9fa;
+  text-align: center;
+}
+
+.features h2 {
+  font-size: 2.8rem;
+  color: #1a1a1a;
+  margin-bottom: 50px;
+  font-weight: 700;
+}
+
+.feature-grid {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+
+.feature-item {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 40px 30px;
+  width: 300px;
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease-in-out;
+  text-align: center;
+}
+
+.feature-item:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 35px rgba(0, 0, 0, 0.12);
+}
+
+.feature-item i {
+  font-size: 2.5rem;
+  color: #c41230;
+  margin-bottom: 20px;
+}
+
+.feature-item h3 {
+  font-size: 1.4rem;
+  margin-bottom: 15px;
+  color: #222;
+}
+
+.feature-item p {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.5;
+}
+
+/* Use Cases Section */
+.use-cases {
+  padding: 80px 40px;
+  background: #ffffff;
+  text-align: center;
+}
+
+.use-cases h2 {
+  font-size: 2.8rem;
+  color: #1a1a1a;
+  margin-bottom: 50px;
+  font-weight: 700;
+}
+
+.use-cases-grid {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+
+.use-case {
+  background: #f1f3f5;
+  border-radius: 16px;
+  padding: 40px 30px;
+  width: 300px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease-in-out;
+  text-align: center;
+}
+
+.use-case:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+}
+
+.use-case h3 {
+  font-size: 1.4rem;
+  color: #c41230;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.use-case p {
+  font-size: 1rem;
+  color: #444;
+  line-height: 1.5;
+}
+
   /* Main footer container */
 .footer {
     background-color: #f2f2f2;

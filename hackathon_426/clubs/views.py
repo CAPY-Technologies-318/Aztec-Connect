@@ -33,7 +33,6 @@ def reset_swipes(request):
             UserClubInteraction.objects.filter(user=user, disliked=True).update(disliked=False)
     return redirect('explore')
 
-
 @csrf_exempt  # optionally replace with @require_POST + CSRF middleware if needed
 def swipe_club(request, club_id, action):
     if request.method == 'POST':

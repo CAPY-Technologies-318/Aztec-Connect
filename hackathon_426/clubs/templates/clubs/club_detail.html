@@ -1,8 +1,39 @@
 {% load static %}
-<h2>{{ club.name }}</h2>
-<img src="{{ club.banner.url }}">
-<img src="{{ club.logo.url }}" style="width: 100px;">
-<p>{{ club.description }}</p>
-<p><strong>Benefits:</strong> {{ club.benefits }}</p>
-<p><strong>Goals:</strong> {{ club.goals }}</p>
-<p><strong>Meets on:</strong> {{ club.meeting_dates }} at {{ club.meeting_times }}</p>
+<link rel="stylesheet" href="{% static 'clubs/club_detail.css' %}">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+
+<!-- Navigation Bar -->
+<ul class="nav-bar">
+    <a href=""><img class="nav-bar-img" src="{% static 'clubs/images/logo.png' %}" alt="CAPY Technologies Logo"></a>
+    <div class="nav-links">
+      <a class="nav-link {% if request.resolver_match.url_name == 'clubs_home' %}active{% endif %}" 
+         href="{% url 'clubs_home' %}">Home</a>
+      <a class="nav-link {% if request.resolver_match.url_name == 'explore' %}active{% endif %}" 
+         href="{% url 'explore' %}">Explore</a>
+      <a class="nav-link {% if request.resolver_match.url_name == 'cart' %}active{% endif %}" 
+         href="{% url 'cart' %}">Cart</a>
+      <a class="logout" href="{% url 'logout' %}">
+          <i class="fas fa-lock"></i>Logout
+      </a>
+    </div>
+  </ul>
+
+  <div class="club-detail-container">
+    <h2 class="club-title">{{ club.name }}</h2>
+  
+    {% if club.banner %}
+      <img class="club-banner" src="{{ club.banner.url }}" alt="Banner">
+    {% endif %}
+  
+    <div class="club-profile">
+      {% if club.logo %}
+        <img class="club-logo" src="{{ club.logo.url }}" alt="Logo">
+      {% endif %}
+      <div class="club-description">
+        <p><strong>Category:</strong> {{ club.category }}</p>
+        <p><strong>Description:</strong> {{ club.description }}</p>
+        <p><strong>Website:</strong> {{ club.website }}</p>
+        <p><strong>Meets on:</strong> {{ club.meeting_time }}</p>
+      </div>
+    </div>
+  </div>

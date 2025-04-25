@@ -1,11 +1,39 @@
 {% load static %}
-<h2>Your Cart</h2>
-{% for interaction in cart %}
-  <div class="club-item">
-    <h3>{{ interaction.club.name }}</h3>
-    <a href="{% url 'club_detail' interaction.club.id %}">View Details</a>
-    <a href="{% url 'join_club' interaction.club.id %}">Join Club</a>
+<link rel="stylesheet" href="{% static 'clubs/cart.css' %}">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+<h2 class="cart-title">My Clubs</h2>
+
+<!-- Navigation Bar -->
+<ul class="nav-bar">
+  <a href=""><img class="nav-bar-img" src="{% static 'clubs/images/logo.png' %}" alt="CAPY Technologies Logo"></a>
+  <div class="nav-links">
+    <a class="nav-link {% if request.resolver_match.url_name == 'clubs_home' %}active{% endif %}" 
+       href="{% url 'clubs_home' %}">Home</a>
+    <a class="nav-link {% if request.resolver_match.url_name == 'explore' %}active{% endif %}" 
+       href="{% url 'explore' %}">Explore</a>
+    <a class="nav-link {% if request.resolver_match.url_name == 'cart' %}active{% endif %}" 
+       href="{% url 'cart' %}">Cart</a>
+    <a class="logout" href="{% url 'logout' %}">
+        <i class="fas fa-lock"></i>Logout
+    </a>
   </div>
-{% empty %}
-  <p>No clubs in cart.</p>
-{% endfor %}
+</ul>
+
+<div class="cart-container">
+  {% for interaction in cart %}
+    <div class="club-item">
+      {% if interaction.club.logo %}
+        <img class="club-logo" src="{{ interaction.club.logo.url }}" alt="{{ interaction.club.name }} Logo">
+      {% endif %}
+      <div class="club-info">
+        <h3>{{ interaction.club.name }}</h3>
+        <div class="cart-actions">
+          <a class="cart-btn details" href="{% url 'club_detail' interaction.club.id %}">View Details</a>
+          <a class="cart-btn join" href="{% url 'join_club' interaction.club.id %}">Join Club</a>
+        </div>
+      </div>
+    </div>
+  {% empty %}
+    <p class="empty-cart">No clubs in cart.</p>
+  {% endfor %}
+</div>
