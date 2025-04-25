@@ -7,6 +7,7 @@ urlpatterns = [
     path('swipe/<int:club_id>/<str:action>/', views.swipe_club, name='swipe_club'),
     path('cart/', views.cart_view, name='cart'),
     path('join/<int:club_id>/', views.join_club, name='join_club'),
+    path('remove/<int:club_id>/', views.remove_club, name='remove_club'),
     path('club/<int:club_id>/', views.club_detail, name='club_detail'),
     path('reset-swipes/', views.reset_swipes, name='reset_swipes'), 
 
