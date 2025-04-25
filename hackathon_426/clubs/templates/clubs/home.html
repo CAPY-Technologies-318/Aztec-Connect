@@ -4,6 +4,18 @@
 <link rel="stylesheet" href="{% static 'clubs/home.css' %}">
 <style>
     .recommendation-title {
+        font-family: 'Times New Roman', Times, serif;
+        font-size: 2.5rem;
+        color: #cf2e2e;
+        margin: 2rem 0;
+        text-align: center;
+        font-weight: bold;
+        text-transform: uppercase;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    
+    .my-clubs-title {
+        font-family: 'Times New Roman', Times, serif;
         font-size: 2.5rem;
         color: #cf2e2e;
         margin: 2rem 0;
@@ -17,16 +29,47 @@
 
 {% block content %}
 <div class="container">
-    <!-- Recommendations Section -->
-    <h2 class="recommendation-title">Recommendations!</h2>
+    {% if joined_clubs %}
+    <!-- My Clubs Section -->
+    <h2 class="my-clubs-title">My Clubs</h2>
     <div class="club-grid">
-        {% for club in recommended_clubs %}
+        {% for club in joined_clubs %}
         <div class="club-card">
-            <img src="{% static 'clubs/images/'|add:club.image %}" alt="{{ club.name }}" class="club-image">
+            {% if club.logo %}
+            <img src="{{ club.logo.url }}" alt="{{ club.name }}" class="club-image">
+            {% else %}
+            <img src="{% static 'clubs/images/default_club.jpg' %}" alt="{{ club.name }}" class="club-image">
+            {% endif %}
             <div class="club-info">
                 <h3 class="club-title">{{ club.name }}</h3>
                 <p class="club-description">{{ club.description }}</p>
-                <a href="{% url 'explore' %}" class="btn btn-primary">Learn More</a>
+                <a href="{% url 'club_detail' club.id %}" class="btn btn-danger text-white">View Details</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Recommendations Section -->
+    <h2 class="recommendation-title">Recommendations</h2>
+    <div class="club-grid">
+        {% for club in recommended_clubs %}
+        <div class="club-card">
+            {% if club.logo %}
+            <img src="{{ club.logo.url }}" alt="{{ club.name }}" class="club-image">
+            {% elif club.image %}
+            <img src="{% static 'clubs/images/'|add:club.image %}" alt="{{ club.name }}" class="club-image">
+            {% else %}
+            <img src="{% static 'clubs/images/default_club.jpg' %}" alt="{{ club.name }}" class="club-image">
+            {% endif %}
+            <div class="club-info">
+                <h3 class="club-title">{{ club.name }}</h3>
+                <p class="club-description">{{ club.description }}</p>
+                {% if club.id %}
+                <a href="{% url 'join_club' club.id %}" class="btn btn-danger text-white">Join Club</a>
+                {% else %}
+                <a href="{% url 'explore' %}" class="btn btn-danger text-dark">Learn More</a>
+                {% endif %}
             </div>
         </div>
         {% endfor %}
