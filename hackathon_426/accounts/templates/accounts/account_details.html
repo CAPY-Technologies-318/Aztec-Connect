@@ -20,22 +20,32 @@
             <form method="POST" action="{% url 'account_details' %}">
                 {% csrf_token %}
                 
-                <label for="name">Name (First & Last)</label>
-                <input type="text" id="name" name="name" required>
+                <label for="{{ form.name.id_for_label }}">Name (First & Last)</label>
+                {{ form.name }}
                 
-                <label for="major">Major</label>
-                <input type="text" id="major" name="major" required>
+                <label for="{{ form.major.id_for_label }}">Major</label>
+                {{ form.major }}
                 
-                <label for="gender">Gender</label>
-                <input type="text" id="gender" name="gender" required>
+                <label for="{{ form.gender.id_for_label }}">Gender</label>
+                {{ form.gender }}
                 
-                <label for="race">Race/Ethnicity</label>
-                <input type="text" id="race" name="race" required>
+                <label for="{{ form.race.id_for_label }}">Race/Ethnicity</label>
+                {{ form.race }}
                 
-                <label for="sports">Interested in joining a sports club?</label>
-                <input type="text" id="sports" name="sports" required>
+                <label for="{{ form.sports.id_for_label }}">Interested in joining a sports club?</label>
+                {{ form.sports }}
 
                 <button type="submit">Submit</button>
+
+                {% if form.errors %}
+                    <div class="error-message">
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
             </form>
         </div>
     </div>
