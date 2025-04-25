@@ -22,8 +22,19 @@ def explore_clubs(request):
         clubs = Club.objects.filter(id__in=disliked_club_ids).exclude(id__in=liked_or_joined_club_ids)
     else:
         clubs = Club.objects.exclude(id__in=liked_or_joined_club_ids)
+
+    # Filter by category if provided
+    selected_category = request.GET.get('category')
+    if selected_category:
+        clubs = clubs.filter(category=selected_category)
+
     show_empty_message = clubs.count() == 0
-    return render(request, "clubs/explore.html", {"clubs": clubs, "show_empty_message": show_empty_message})
+    return render(request, "clubs/explore.html", {
+        "clubs": clubs,
+        "show_empty_message": show_empty_message,
+        "selected_category": selected_category,
+        "categories": dict(Club.CATEGORY_CHOICES)  # Send categories to template
+    })
 
 @csrf_exempt
 def reset_swipes(request):
