@@ -41,9 +41,17 @@
             <img src="{% static 'clubs/images/default_club.jpg' %}" alt="{{ club.name }}" class="club-image">
             {% endif %}
             <div class="club-info">
-                <h3 class="club-title">{{ club.name }}</h3>
-                <p class="club-description">{{ club.description }}</p>
-                <a href="{% url 'club_detail' club.id %}" class="btn btn-danger text-white">View Details</a>
+                <div>
+                    <h3 class="club-title">{{ club.name }}</h3>
+                    <p class="club-description">{{ club.description }}</p>
+                    {% if club.description|length > 150 %}
+                    <a href="{% url 'club_detail' club.id %}" class="read-more-btn">Read More</a>
+                    {% endif %}
+                </div>
+                <div class="button-group">
+                    <a href="{% url 'club_detail' club.id %}" class="btn btn-danger text-white">View Details</a>
+                    <a href="{% url 'remove_club' club.id %}" class="btn btn-outline-danger">Remove</a>
+                </div>
             </div>
         </div>
         {% endfor %}
@@ -63,10 +71,18 @@
             <img src="{% static 'clubs/images/default_club.jpg' %}" alt="{{ club.name }}" class="club-image">
             {% endif %}
             <div class="club-info">
-                <h3 class="club-title">{{ club.name }}</h3>
-                <p class="club-description">{{ club.description }}</p>
+                <div>
+                    <h3 class="club-title">{{ club.name }}</h3>
+                    <p class="club-description">{{ club.description }}</p>
+                    {% if club.description|length > 150 and club.id %}
+                    <a href="{% url 'club_detail' club.id %}" class="read-more-btn">Read More</a>
+                    {% endif %}
+                </div>
                 {% if club.id %}
-                <a href="{% url 'join_club' club.id %}" class="btn btn-danger text-white">Join Club</a>
+                <div class="button-group">
+                    <a href="{% url 'club_detail' club.id %}" class="btn btn-danger text-white">View Details</a>
+                    <a href="{% url 'join_club' club.id %}" class="btn btn-danger text-white">Join Club</a>
+                </div>
                 {% else %}
                 <a href="{% url 'explore' %}" class="btn btn-danger text-dark">Learn More</a>
                 {% endif %}

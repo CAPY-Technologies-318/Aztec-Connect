@@ -296,3 +296,27 @@ def home(request):
         'recommended_clubs': recommended_clubs,
         'joined_clubs': joined_clubs
     })
+
+def remove_club(request, club_id):
+    """
+    Remove a club from the user's joined clubs list
+    """
+    submission_id = request.session.get('submission_id')
+    if not submission_id:
+        return redirect('/accounts/login/?next=/clubs/homeclubs/')
+    
+    user = get_object_or_404(newSubmission, id=submission_id)
+    
+    # Find the interaction for this club
+    interaction = get_object_or_404(
+        UserClubInteraction, 
+        user=user, 
+        club_id=club_id,
+        joined=True
+    )
+    
+    # Set joined to False
+    interaction.joined = False
+    interaction.save()
+    
+    return redirect("clubs_home")
