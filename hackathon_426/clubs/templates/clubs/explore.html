@@ -5,7 +5,17 @@
 <!-- Navigation Bar -->
 <ul class="nav-bar">
   <a href=""><img class="nav-bar-img" src="{% static 'clubs/images/logo.png' %}" alt="CAPY Technologies Logo"></a>
-  <a class="logout" href="{% url 'logout' %}"><i class="fas fa-lock"></i>Logout</a>
+  <div class="nav-links">
+    <a class="nav-link {% if request.resolver_match.url_name == 'clubs_home' %}active{% endif %}" 
+       href="{% url 'clubs_home' %}">Home</a>
+    <a class="nav-link {% if request.resolver_match.url_name == 'explore' %}active{% endif %}" 
+       href="{% url 'explore' %}">Explore</a>
+    <a class="nav-link {% if request.resolver_match.url_name == 'cart' %}active{% endif %}" 
+       href="{% url 'cart' %}">Cart</a>
+    <a class="logout" href="{% url 'logout' %}">
+        <i class="fas fa-lock"></i>Logout
+    </a>
+  </div>
 </ul>
 
 <section class="explore-container">

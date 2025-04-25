@@ -25,7 +25,7 @@ def login_view(request):
                         form.add_error(None, "Incorrect username or password.")
                     else:
                         request.session['submission_id'] = submission.id
-                        return redirect('dashboard')
+                        return redirect('clubs_home')
                 except newSubmission.DoesNotExist:
                     form.add_error(None, "Invalid username or password.")
     return render(request, "accounts/login.html", {"form": form})
@@ -43,7 +43,7 @@ def account_details_view(request):
     if request.method == "POST":
         if form.is_valid():
             form.save()
-            return redirect('home')
+            return redirect('clubs_home')
     else:
         form = AccountDetailsForm(instance=submission)
     

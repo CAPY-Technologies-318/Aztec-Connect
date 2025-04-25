@@ -80,9 +80,6 @@ def club_detail(request, club_id):
     club = get_object_or_404(Club, id=club_id)
     return render(request, "clubs/club_detail.html", {"club": club})
 
-def dashboard_view(request):
-    return render(request, "clubs/dashboard.html")
-
 def home(request):
     submission_id = request.session.get('submission_id')
     if not submission_id:

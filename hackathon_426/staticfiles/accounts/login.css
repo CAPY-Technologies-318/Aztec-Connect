@@ -1,50 +1,56 @@
 :root {
-    --dark-orange: #FF4D00;
-    --nav-bar-color: #3C1518;
-    --nav-hover-color: #69140E;
-    --dark-bean: #3C1518;
-    --white: white;
-    --prince-orange: #ffc574;
-    --section: #ffce8a;
-    --brown: #A44200;
+    --nav-bar-color: white;
+    --sdsu-color: #A6192E; 
   }
   
-  * {
-      font-family: 'Times New Roman', Times, serif;
-      padding: 0;
-      margin: 0;
-      box-sizing: border-box;
-  } 
+* {
+    font-family: 'Times New Roman', Times, serif;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+} 
+
+body {
+    background-color: var(--sdsu-color);
+}
+
+form {
+    width: 20rem;
+    height: auto;
+}
 
 /* Navigation Bar */
 .nav-bar {
-    position: fixed;
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: var(--nav-bar-color);
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
-    box-sizing: border-box;
-    overflow: hidden;
-    transition: top 0.3s;
-  }
+  position: fixed;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: var(--nav-bar-color);
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  box-sizing: border-box;
+  overflow: hidden;
+  transition: top 0.3s;
+}
   
-  .nav-bar-img {
-    height: auto;
-    width:  2.5rem; 
-    padding: 5px 5px;
-    box-sizing: initial;
-  }
+.nav-bar-img {
+  height: 3rem;
+  width: 12rem; 
+  padding: 5px 5px;
+  box-sizing: initial;
+  margin-left: 20px;
+}
 
-  #confirmPasswordField {
-    display: none; 
+#id_confirm_password {
+    display: none;
+    margin-bottom: 1rem;
 }
 
 .container {
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -53,8 +59,103 @@
 
 .login-section {
     background-color: white;
-    padding: 1.5rem; 
+    padding: 2rem; 
+    padding-left: 6rem;
+    padding-right: 6rem;
     border-radius: 1.5rem;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     text-align: center;
 }
+
+/* Form Fields */
+.login-section form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.login-header {
+  margin-bottom: 1.5rem;
+  font-weight: bold;
+}
+
+.login-section label {
+  font-weight: bold;
+  color: black;
+  display: block;
+  margin-bottom: 0.3rem;
+  text-align: left;
+  width: 100%;
+  max-width: 300px;
+}
+
+label[for="id_confirm_password"] {
+  display: none; 
+}
+
+.login-section input[type="text"],
+.login-section input[type="password"] {
+  width: 100%;
+  max-width: 400px;
+  padding: 0.75rem;
+  border: 1px solid black;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  background-color: #fff9f5;
+  transition: border-color 0.3s ease;
+}
+
+.login-section input[type="text"]:focus,
+.login-section input[type="password"]:focus {
+  outline: none;
+  border-color: black;
+}
+
+/* Checkbox label */
+.login-section input[type="checkbox"] {
+  margin-right: 0.5rem;
+}
+
+
+.login-section label[for="create"] {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  color: black;
+}
+
+/* Submit Button */
+.login-section button {
+  background-color: var(--sdsu-color);
+  color: white;
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-top: 1rem;
+}
+
+.login-section button:hover {
+  background-color: var(--white);
+  border: 2px solid black;
+  color: black;
+}
+
+.reset-link {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  color: black;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.9em;
+  margin-top: 4px;
+}
+
+
+
+
+

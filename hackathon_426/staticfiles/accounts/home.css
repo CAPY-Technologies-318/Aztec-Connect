@@ -1,3 +1,375 @@
-h1 {
-    color: darkblue;
+:root {
+    --nav-bar-color: white;
+    --sdsu-color: #A6192E; 
+    --white: white;
+  }
+  
+* {
+    font-family: 'Times New Roman', Times, serif;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+} 
+
+body {
+    background-color: var(--sdsu-color);
+}
+
+/* Navigation Bar */
+.nav-bar {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: var(--nav-bar-color);
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    box-sizing: border-box;
+    overflow: hidden;
+    transition: top 0.3s;
+  }
+    
+  .nav-bar-img {
+    height: 3rem;
+    width: 12rem; 
+    padding: 5px 5px;
+    box-sizing: initial;
+    margin-left: 20px;
+  }
+
+  .login {
+    margin-left: auto;
+    padding: 10px 15px; 
+    text-decoration: none; 
+    color: var(--sdsu-color);
+    font-weight: bold;
+  }
+
+  .fa-unlock {
+    margin-right: 7.5px;
+  }
+
+
+/* SDSU Hero Section */
+.video-bg-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    clip-path: polygon(0 0, 100% 0, 100% 92%, 50% 100%, 0 92%);
+}
+
+.video-bg {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: -1;
+  }
+  
+  .overlay-text {
+    position: absolute;
+    z-index: 1;
+    color: white;
+    font-size: 2.5rem;
+    margin-top: 20vh;
+    line-height: 1;
+    text-shadow: 0 0 8px rgba(0,0,0,0.7);
+    bottom: 7rem;       /* distance from bottom */
+    left: 20%;   /* distance from left */
+  }
+
+  .video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* adjust opacity here */
+    z-index: 0; /* must be below text, but above the video */
+  }
+  
+  .video-bg {
+    z-index: -1;
+  }
+  
+  .overlay-text {
+    z-index: 1; /* ensure it's above the overlay */
+  }
+
+  /* Main footer container */
+.footer {
+    background-color: #f2f2f2;
+    padding: 80px 134.5px 42px;
+    font-family: Arial, sans-serif;
+    color: black;
+  }
+  
+  /* Footer contact block styling (top section) */
+  .footer__contact-block {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  
+  /* Logo and social links block */
+  .logo img{
+    display: block;
+    width: 70%;
+    margin-bottom: 2rem;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .social {
+    margin: 0;
+    display: flex;
+    padding: 0;
+    list-style: none;
+    --webkit-box-align: center;
+    gap: 35px;
+  };
+  
+  .social li {
+    /* Using right margin for spacing between icons */
+    margin-right: 20px;
+    display: inline-block;
+  }
+
+  .social li a {
+    text-decoration: none; 
+    color: #a6192e;
+    transition: color 0.3s ease;
+  }
+  
+  .social a {
+    color: #a6192e;
+    text-decoration: none;
+    font-size: 16px;
+    transition: color 0.3s eas
+  }
+  
+  .social a:hover {
+    color: black;
+  }
+
+  /* Add Font Awesome icons using :before pseudo-element */
+.social li.youtube:before {
+    content: "\f167"; /* Unicode for YouTube icon */
+    font-family: "Font Awesome 5 Brands";
+    font-size: 32px;
+    color: #a6192e;
+}
+
+.social li.facebook:before {
+    content: "\f09a"; /* Unicode for Facebook icon */
+    font-family: "Font Awesome 5 Brands";
+    font-size: 32px;
+    color: #a6192e;
+}
+
+.social li.instagram:before {
+    content: "\f16d"; /* Unicode for Instagram icon */
+    font-family: "Font Awesome 5 Brands";
+    font-size: 32px;
+    color: #a6192e;
+}
+
+.social li.tiktok:before {
+    content: "\e07b"; /* Unicode for TikTok icon (font-awesome may not have an official TikTok icon) */
+    font-family: "Font Awesome 5 Brands";
+    font-size: 32px;
+    color: #a6192e;
+}
+  
+  /* Navigation blocks style */
+  .nav-block {
+    flex: 2 1 600px;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    text-align: left;
+    margin-top: 15px;
+  }
+
+  .nav-block--contact address{
+    line-height: 1.8; 
+    margin: 0 0 4px; 
+    font-style: normal;
+    color: #333
+  }
+
+  .telephone-number {
+    color: black; 
+    cursor: pointer;
+    font-weight: 700; 
+    font-style: normal;
+    text-decoration: none; 
+  }
+
+  .telephone-number:hover {
+    text-decoration: underline;
+  }
+  
+  .maps-parking {
+    font-weight: 700;
+    cursor: pointer; 
+  }
+  .nav-block__holder {
+    margin-bottom: 20px;
+  }
+  
+  .nav-block__holder ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .nav-block__holder ul li {
+    margin-bottom: 10px;
+  }
+  
+  .nav-block__holder ul li a {
+    text-decoration: none;
+    color: black;
+    transition: color 0.3s ease;
+  }
+  
+  .nav-block__holder ul li a:hover {
+    color: #a6192e;
+  }
+  
+  /* Bottom footer information block */
+  .footer__info-block {
+    padding: 43px 14px 0 11px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  /* Document and utility links */
+  .doc {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .doc ul {
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    padding-inline-start: 40px;
+    unicode-bidi: isolate;
+    margin: 0 0 22px;
+  }
+  
+  .doc li {
+    font-size: 14px;
+    margin: 0 0 12px;
+  }
+  
+  .doc li a {
+    text-decoration: none;
+    color: black;
+    transition: color 0.3s ease;
+  }
+  
+  .doc li a:hover {
+    color: #a6192e;
+  }
+  
+  /* Decorative dots between .doc links */
+  .doc li:after {
+    content: "";
+    display: inline-block;
+    border-radius: 50%;
+    background-color: #333;
+    width: 3px;
+    height: 3px;
+    margin-bottom: 0.2rem;
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+  }
+  
+  /* Remove the dot after the last link */
+  .doc li:last-child:after {
+    content: none;
+  }
+  
+  /* Copyright block styling */
+  .copyryght-block {
+    font-size: 14px;
+    color: #333;
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .copyryght-block span {
+    margin: 0 10px;
+  }
+  
+  .copyryght-block a {
+    text-decoration: none;
+    color: #a6192e;
+    transition: color 0.3s ease;
+  }
+  
+  .copyryght-block a:hover {
+    color: #ff4d4d;
+  }
+
+  #directedit a {
+    font-weight: bold; /* Make the "Last Updated" date bold */
+    color: black; /* You can change the color as needed */
+}
+
+#directedit a:hover {
+    text-decoration: underline; /* Underline on hover */
+}
+
+@media screen and (min-width: 1200px) {
+    .footer {
+        padding-left: calc((100vw - 1085px) / 2); 
+        padding-right: calc((100vw - 1085px) / 2); 
+    }
+}
+
+/* Responsive Media Queries */
+@media (max-width: 1024px) {
+    .footer {
+        padding: 40px 20px;
+    }
+
+    /* Copyright and last updated date adjustments for tablet */
+    .copyryght-block {
+        font-size: 12px;
+        margin-top: 20px;
+        display: block;
+        text-align: center;
+    }
+
+    /* Video Section */
+    .video-bg-wrapper {
+        height: 60vh;
+    }
+
+    .overlay-text {
+        font-size: 2rem;
+        margin-top: 15vh;
+    }
 }

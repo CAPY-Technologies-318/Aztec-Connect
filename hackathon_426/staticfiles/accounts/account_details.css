@@ -1,0 +1,124 @@
+:root {
+    --nav-bar-color: white;
+    --sdsu-color: #A6192E; 
+}
+  
+* {
+    font-family: 'Times New Roman', Times, serif;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+} 
+
+body {
+    background-color: var(--sdsu-color);
+}
+
+form {
+    width: 20rem;
+    height: auto;
+}
+
+/* Navigation Bar */
+.nav-bar {
+    position: fixed;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: var(--nav-bar-color);
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    box-sizing: border-box;
+    overflow: hidden;
+    transition: top 0.3s;
+}
+  
+.nav-bar-img {
+    height: 3rem;
+    width: 12rem; 
+    padding: 5px 5px;
+    box-sizing: initial;
+    margin-left: 20px;
+}
+
+.container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding-top: 6rem; /* Increased from 4rem to 6rem */
+}
+
+.login-section {
+    background-color: white;
+    padding: 2rem; 
+    padding-left: 6rem;
+    padding-right: 6rem;
+    border-radius: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    text-align: center;
+    margin-top: -1rem; /* Changed from -2rem to -1rem to lower the form */
+}
+
+/* Form Fields */
+.login-section form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.login-header {
+    margin-bottom: 1.5rem;
+    font-weight: bold;
+}
+
+.login-section label {
+    font-weight: bold;
+    color: black;
+    display: block;
+    margin-bottom: 0.3rem;
+    text-align: left;
+    width: 100%;
+    max-width: 300px;
+}
+
+.login-section input[type="text"] {
+    width: 100%;
+    max-width: 400px;
+    padding: 0.75rem;
+    border: 1px solid black;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    background-color: #fff9f5;
+    transition: border-color 0.3s ease;
+    margin-bottom: 1rem;
+}
+
+.login-section input[type="text"]:focus {
+    outline: none;
+    border-color: black;
+}
+
+/* Submit Button */
+.login-section button {
+    background-color: var(--sdsu-color);
+    color: white;
+    padding: 0.75rem 2rem;
+    border: none;
+    border-radius: 0.75rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 1rem;
+}
+
+.login-section button:hover {
+    background-color: white;
+    border: 2px solid black;
+    color: black;
+} 
