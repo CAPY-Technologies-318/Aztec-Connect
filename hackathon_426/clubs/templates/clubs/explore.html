@@ -18,11 +18,10 @@
   </div>
 </ul>
 
-<section class="explore-container">
-  <h2 class="explore-title">Explore Clubs</h2>
-
+<section class="card-container">
   {% for club in clubs %}
     <div class="club-card" data-club-id="{{ club.id }}" {% if not forloop.first %}style="display:none;"{% endif %}>
+      <h2 class="explore-title">{{ club.name }} </h2>
       {% if club.banner %}
         <img class="club-banner" src="{{ club.banner.url }}" alt="Banner">
       {% endif %}
@@ -31,16 +30,16 @@
           <img class="club-logo" src="{{ club.logo.url }}" alt="Logo">
         {% endif %}
         <div class="club-text">
-          <h3>{{ club.name }}</h3>
           <p><strong>Description:</strong> {{ club.description }}</p>
           <p><strong>Meeting Time:</strong> {{ club.meeting_time }}</p>
         </div>
       </div>
     </div>
   {% endfor %}
+</section>
 
+<section class="explore-container">
   <p class="swipe-tip">Use your arrow keys: ← to dislike, → to like</p>
-
   <form method="post" action="{% url 'reset_swipes' %}" class="reset-form">
     {% csrf_token %}
     <button type="submit" class="reset-btn">Reset My Swipes</button>
@@ -50,23 +49,47 @@
 <script>
   const cards = document.querySelectorAll('.club-card');
   let current = 0;
+  let isSwiping = false; 
+
+  document.addEventListener('keydown', function(event) {
+    if (isSwiping) return; // Prevent multiple swipes at once
+    if (event.key === "ArrowRight") {
+      swipe('like');
+    } else if (event.key === "ArrowLeft") {
+      swipe('dislike');
+    }
+  });
 
   async function swipe(action) {
     const card = cards[current];
+    if (!card) return;
+
     const clubId = card.dataset.clubId;
+    isSwiping = true; // Prevent multiple swipes
 
-    // Hide current card
-    card.style.display = 'none';
-    current++;
-
-    // Show next card if it exists
-    if (current < cards.length) {
-      cards[current].style.display = 'block';
-    } else {
-      alert("🎉 You've reached the end!");
+    // Add animation class
+    if (action === 'like') {
+      card.classList.add('swipe-right');
+    } else if (action === 'dislike') {
+      card.classList.add('swipe-left');
     }
 
-    // Send swipe to backend without reload
+    // Wait for animation to complete before hiding and showing next
+    setTimeout(() => {
+      card.style.display = 'none';
+      card.classList.remove('swipe-left', 'swipe-right');
+
+      current++;
+
+      if (current < cards.length) {
+        cards[current].style.display = 'block';
+      } else {
+        alert("🎉 You've reached the end!");
+      }
+      isSwiping = false; // Allow next swipe
+    }, 500); // Match your CSS transition time
+
+    // Send swipe to backend
     try {
       await fetch(`/clubs/swipe/${clubId}/${action}/`, {
         method: 'POST',
@@ -79,15 +102,7 @@
     }
   }
 
-  document.addEventListener('keydown', function(event) {
-    if (event.key === "ArrowRight") {
-      swipe('like');
-    } else if (event.key === "ArrowLeft") {
-      swipe('dislike');
-    }
-  });
-
-  // CSRF helper
+  // CSRF helper function
   function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -103,3 +118,4 @@
     return cookieValue;
   }
 </script>
+
