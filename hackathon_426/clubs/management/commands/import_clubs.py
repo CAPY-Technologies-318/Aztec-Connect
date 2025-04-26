@@ -31,6 +31,7 @@ class Command(BaseCommand):
                         'meeting_time': self.clean(row.get('Meeting Day')),
                         'meeting_location': self.clean(row.get('Meeting Location')),
                         'website': self.clean(row.get('Website')),
+                        'email': self.clean(row.get('Email')),
                         # logo and banner use model defaults
                     }
                 )
