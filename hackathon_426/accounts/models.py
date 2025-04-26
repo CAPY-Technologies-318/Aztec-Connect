@@ -132,6 +132,9 @@ class newSubmission(models.Model):
     gender = models.CharField(max_length=50, choices=GENDER_CHOICES, default='')
     race = models.CharField(max_length=100, choices=RACE_CHOICES, default='')
     sports = models.CharField(max_length=100, choices=SPORTS_CHOICES, default='')
+    profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
+    bio = models.TextField(blank=True, null=True)
+
 
     def generate_verification_code(self):
         self.verification_code = str(random.randint(100000, 999999))

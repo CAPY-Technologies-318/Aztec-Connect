@@ -12,6 +12,8 @@
          href="{% url 'explore' %}">Explore</a>
       <a class="nav-link {% if request.resolver_match.url_name == 'cart' %}active{% endif %}" 
          href="{% url 'cart' %}">Cart</a>
+      <a class="nav-link {% if request.resolver_match.url_name == 'user_profile' %}active{% endif %}"
+          href="{% url 'user_profile' %}">Profile</a>
       <a class="logout" href="{% url 'logout' %}">
           <i class="fas fa-lock"></i>Logout
       </a>

@@ -58,4 +58,13 @@ class AccountDetailsForm(forms.ModelForm):
     class Meta:
         model = newSubmission
         fields = ["name", "major", "gender", "race", "sports"]
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = newSubmission
+        fields = ['profile_picture', 'bio']
+        widgets = {
+            'profile_picture': forms.FileInput(),
+        }
+
         

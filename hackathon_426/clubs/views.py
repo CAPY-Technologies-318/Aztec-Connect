@@ -15,13 +15,8 @@ def explore_clubs(request):
     user = get_object_or_404(newSubmission, id=submission_id)
 
     interactions = UserClubInteraction.objects.filter(user=user)
-    liked_or_joined = interactions.filter(liked=True) | interactions.filter(joined=True)
-    liked_or_joined_club_ids = liked_or_joined.values_list('club_id', flat=True)
-    disliked_club_ids = list(interactions.filter(disliked=True).values_list('club_id', flat=True))
-    if disliked_club_ids:
-        clubs = Club.objects.filter(id__in=disliked_club_ids).exclude(id__in=liked_or_joined_club_ids)
-    else:
-        clubs = Club.objects.exclude(id__in=liked_or_joined_club_ids)
+    intereacted_club_ids = interactions.filter(Q(liked=True) | Q(disliked=True) | Q(joined=True)).values_list('club_id', flat=True)
+    clubs = Club.objects.exclude(id__in=intereacted_club_ids)
 
     # Filter by category if provided
     selected_category = request.GET.get('category')
@@ -328,6 +323,8 @@ def remove_club(request, club_id):
     
     # Set joined to False
     interaction.joined = False
+    interaction.liked = False
+    interaction.disliked = True
     interaction.save()
     
     return redirect("clubs_home")

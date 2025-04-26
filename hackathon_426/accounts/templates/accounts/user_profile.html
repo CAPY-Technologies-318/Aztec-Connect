@@ -1,0 +1,64 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'accounts/user_profile.css' %}">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+
+<!-- Navigation Bar -->
+<ul class="nav-bar">
+    <a href=""><img class="nav-bar-img" src="{% static 'clubs/images/logo.png' %}" alt="CAPY Technologies Logo"></a>
+    <div class="nav-links">
+      <a class="nav-link {% if request.resolver_match.url_name == 'clubs_home' %}active{% endif %}" 
+         href="{% url 'clubs_home' %}">Home</a>
+      <a class="nav-link {% if request.resolver_match.url_name == 'explore' %}active{% endif %}" 
+         href="{% url 'explore' %}">Explore</a>
+      <a class="nav-link {% if request.resolver_match.url_name == 'cart' %}active{% endif %}" 
+         href="{% url 'cart' %}">Cart</a>
+      <a class="nav-link {% if request.resolver_match.url_name == 'user_profile' %}active{% endif %}"
+         href="{% url 'user_profile' %}">Profile</a>
+      <a class="logout" href="{% url 'logout' %}">
+          <i class="fas fa-lock"></i>Logout
+      </a>
+    </div>
+</ul>
+
+<!-- Account Section -->
+<div class="profile-container">
+    <h2 class="profile-header">Your Profile</h2>
+
+    <div class="profile-card">
+        <div class="profile-picture">
+            {% if profile.profile_picture %}
+                <img src="{{ profile.profile_picture.url }}" alt="Profile Picture">
+            {% else %}
+                <img src="{% static 'accounts/default-avatar.png' %}" alt="Default Profile Picture">
+            {% endif %}
+        </div>
+
+        <div class="profile-details">
+            <p><strong>Username:</strong> {{ profile.username }}</p>
+            <p><strong>Email:</strong> {{ profile.email }}</p>
+            <p><strong>Name:</strong> {{ profile.name }}</p>
+            <p><strong>Major:</strong> {{ profile.major }}</p>
+            <p><strong>Gender:</strong> {{ profile.gender }}</p>
+            <p><strong>Race:</strong> {{ profile.race }}</p>
+            <p><strong>Interested in Sports:</strong> {{ profile.sports }}</p>
+        </div>
+    </div>
+
+    <div class="profile-edit-form">
+        <h3>Edit Your Profile</h3>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                {{ form.profile_picture }}
+            </div>
+    
+            <div class="form-group">
+                <label for="id_bio">Short Bio</label><br>
+                {{ form.bio }}
+            </div>
+    
+            <button type="submit" class="save-button">Save Changes</button>
+        </form>
+    </div>
+</div>
