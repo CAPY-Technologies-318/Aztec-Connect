@@ -25,6 +25,7 @@ class Club(models.Model):
     description = models.TextField(blank=True)
     meeting_time = models.CharField(max_length=100, blank=True)
     website = models.URLField(blank=True, null=True)
+    email = models.EmailField(blank=True, null=True)
     meeting_location = models.CharField(max_length=255, blank=True)
 
     def __str__(self):

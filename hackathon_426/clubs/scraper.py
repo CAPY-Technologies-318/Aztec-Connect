@@ -37,6 +37,7 @@ def scrape_org(org_id):
             "Purpose": extract_text_or_none(soup, "purpose"),
             "Meeting Day": extract_text_or_none(soup, "meetday"),
             "Meeting Location": extract_text_or_none(soup, "meetloc"),
+            "Email": extract_text_or_none(soup, "email"),
         }
 
     except Exception as e:
@@ -45,7 +46,7 @@ def scrape_org(org_id):
 
 def main():
     with open(OUTPUT_FILE, mode="w", newline="", encoding="utf-8") as file:
-        fieldnames = ["ID", "Name", "Type", "Website", "Purpose", "Meeting Day", "Meeting Location"]
+        fieldnames = ["ID", "Name", "Type", "Website", "Purpose", "Meeting Day", "Meeting Location", "Email"]
         writer = csv.DictWriter(file, fieldnames=fieldnames)
         writer.writeheader()
 
