@@ -6,6 +6,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.db.models import Count
 from django.db.models import Q
+from django.core.mail import send_mail
+from django.contrib import messages
 
 # Create your views here.
 def explore_clubs(request):
@@ -74,6 +76,7 @@ def join_club(request, club_id):
     if not submission_id:
         return redirect('/accounts/login/?next=/clubs/explore/')
     user = get_object_or_404(newSubmission, id=submission_id)
+    club = get_object_or_404(Club, id=club_id)
     
     # Get or create an interaction for this user and club
     interaction, created = UserClubInteraction.objects.get_or_create(
@@ -85,6 +88,34 @@ def join_club(request, club_id):
     # Mark as joined
     interaction.joined = True
     interaction.save()
+
+    subject = f"New Club Join Request: {user.username}"
+    message = f"""
+    Hello {club.name} Organizer,
+
+    {user.username} ({user.email}) has requested to join your club.
+
+    User details:
+    - Name: {user.name}
+    - Email: {user.email}
+    - Username: {user.username}
+
+    Please reach out to them or approve their request as needed!
+
+    Thanks,
+    Your Platform
+    """
+    from_email = 'noreply@yourdomain.com'  # replace with your site email
+    recipient_list = [club.email]  # assuming `email` field on Club model
+
+    try:
+        send_mail(subject, message, from_email, recipient_list)
+    except Exception as e:
+        print(f"Email sending failed: {e}")
+        messages.error(request, 'Could not send join email. Please try again later.')
+
+
+    messages.success(request, 'Your join request has been sent to the club organizer!')
     
     # Redirect back to home page to see updated recommendations
     #return redirect("cart")
