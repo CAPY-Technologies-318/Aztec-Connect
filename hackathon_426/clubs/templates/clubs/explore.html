@@ -21,20 +21,17 @@
 </ul>
 
 <section class="card-container">
-  {% for club in clubs %}
-    <div class="club-card" data-club-id="{{ club.id }}" {% if not forloop.first %}style="display:none;"{% endif %}>
-      <h2 class="explore-title">{{ club.name }} </h2>
-      {% if club.banner %}
-        <img class="club-banner" src="{{ club.banner.url }}" alt="Banner">
-      {% endif %}
-      <div class="club-info">
-        {% if club.logo %}
-          <img class="club-logo" src="{{ club.logo.url }}" alt="Logo">
-        {% endif %}
-        <div class="club-text">
-          <p><strong>Description:</strong> {{ club.description }}</p>
-          <p><strong>Email:</strong> {{ club.email }}</p>
-          <p><strong>Meeting Time:</strong> {{ club.meeting_time }}</p>
+  {% for i in "123456789"|make_list %}
+    <div class="user-card" data-user-id="USER{{ i }}" {% if not forloop.first %}style="display:none;"{% endif %}>
+      <h2 class="explore-title">Gym Buddy #{{ i }}</h2>
+      <div class="user-info">
+        <div class="user-avatar">
+          <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=gym-buddy-{{i}}&backgroundColor=b6e3f4&mouth=smile&eyes=happy&clothingColor=red,blue,black&clothing=hoodie,overall&accessoriesChance=90&accessoriesColor=black&hairColor=black,brown,blonde&style=circle" alt="User Avatar" class="avatar-image">
+        </div>
+        <div class="user-text">
+          <p><strong>Description:</strong> <span class="random-description"></span></p>
+          <p><strong>Email:</strong> user{{ i }}@arcbuddy.com</p>
+          <p><strong>Preferred Gym Time:</strong> <span class="random-time"></span></p>
         </div>
       </div>
     </div>
@@ -44,13 +41,18 @@
 <section class="explore-container">
   <p class="swipe-tip">Use your arrow keys: ← to dislike, → to like</p>
   <form class="filter" method="get" action="">
-    <select name="category">
-        <option value="">All Categories</option>
-        {% for key, value in categories.items %}
-            <option value="{{ key }}" {% if selected_category == key %}selected{% endif %}>{{ value }}</option>
-        {% endfor %}
+    <select name="timePreference" id="timeFilter">
+      <option value="">All Times</option>
+      <option value="early-morning">Early Morning (5AM-7AM)</option>
+      <option value="morning">Morning (8AM-11AM)</option>
+      <option value="lunch">Lunch Time (11AM-2PM)</option>
+      <option value="afternoon">Afternoon (2PM-5PM)</option>
+      <option value="evening">Evening (5PM-8PM)</option>
+      <option value="night">Night (8PM-10PM)</option>
+      <option value="weekends">Weekends Only</option>
+      <option value="flexible">Flexible Schedule</option>
     </select>
-    <button type="submit">Filter</button>
+    <button type="submit" class="filter-btn">Filter</button>
   </form>
   <form method="post" action="{% url 'reset_swipes' %}" class="reset-form">
     {% csrf_token %}
@@ -58,15 +60,181 @@
   </form>
 </section>
 
+<style>
+.user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
 
-  
+.user-avatar {
+    width: 200px;
+    height: 200px;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    background-color: #f5f5f5;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.avatar-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    background-color: white;
+}
+
+.user-text {
+    width: 100%;
+    text-align: left;
+}
+
+.filter {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.filter select {
+    padding: 8px 15px;
+    font-size: 16px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    margin-right: 10px;
+    background-color: white;
+    cursor: pointer;
+}
+
+.filter-btn {
+    padding: 8px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.filter-btn:hover {
+    background-color: #45a049;
+}
+
+.reset-btn {
+    margin-top: 10px;
+    padding: 8px 20px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.reset-btn:hover {
+    background-color: #da190b;
+}
+
+/* Add a subtle hover effect */
+.user-avatar:hover {
+    transform: scale(1.02);
+    transition: transform 0.2s ease;
+}
+</style>
+
 <script>
-  const cards = document.querySelectorAll('.club-card');
+  // Random descriptions and times arrays
+  const descriptions = [
+    "Looking for a dedicated workout partner! 💪",
+    "Need someone to spot me for bench press 🏋️",
+    "Early morning gym enthusiast seeking workout buddy 🌅",
+    "Love cardio and weight training, seeking similar partner 🏃‍♂️",
+    "Beginner looking for guidance and motivation 🌟",
+    "Advanced lifter willing to share techniques 🎯",
+    "Flexible schedule, focused on fitness goals 📈",
+    "Preparing for my first marathon, need running partner 🏃‍♀️",
+    "CrossFit enthusiast seeking workout companion 🔄"
+  ];
+
+  const gymTimes = [
+    "Early Morning (5AM-7AM)",
+    "Morning (8AM-11AM)",
+    "Lunch Time (11AM-2PM)",
+    "Afternoon (2PM-5PM)",
+    "Evening (5PM-8PM)",
+    "Night (8PM-10PM)",
+    "Weekends Only",
+    "Flexible Schedule",
+    "MWF Mornings"
+  ];
+
+  // Add array of style keywords for diverse avatars
+  const styleKeywords = [
+    "athletic", "fitness", "sport", "gym", "workout",
+    "running", "training", "exercise", "healthy", "active"
+  ];
+
+  // Function to get random item from array
+  function getRandomItem(array) {
+    return array[Math.floor(Math.random() * array.length)];
+  }
+
+  // Function to generate random avatar URL
+  function getRandomAvatarUrl(userId) {
+    // Array of happy mouth types
+    const mouths = ['smile', 'twinkle', 'grin'];
+    // Array of energetic eye types
+    const eyes = ['happy', 'wink', 'hearts'];
+    // Array of athletic clothing
+    const clothing = ['hoodie', 'shirtCrewNeck', 'shirtVNeck'];
+    // Array of athletic colors
+    const colors = ['red', 'blue', 'black', 'gray'];
+    
+    const randomMouth = mouths[userId % mouths.length];
+    const randomEyes = eyes[userId % eyes.length];
+    const randomClothing = clothing[userId % clothing.length];
+    const randomColor = colors[userId % colors.length];
+    
+    return `https://api.dicebear.com/7.x/avataaars/svg?seed=gym-buddy-${userId}`
+      + `&backgroundColor=b6e3f4`
+      + `&mouth=${randomMouth}`
+      + `&eyes=${randomEyes}`
+      + `&clothing=${randomClothing}`
+      + `&clothingColor=${randomColor}`
+      + `&accessoriesChance=90`
+      + `&accessoriesColor=black`
+      + `&hairColor=black,brown,blonde`
+      + `&style=circle`
+      + `&facialHairChance=50`
+      + `&facialHairColor=black,brown`
+      + `&top=shortHair,longHair`
+      + `&topChance=100`;
+  }
+
+  // Populate random descriptions and times
+  document.querySelectorAll('.user-card').forEach((card, index) => {
+    const userId = index + 1;
+    card.querySelector('.random-description').textContent = getRandomItem(descriptions);
+    card.querySelector('.random-time').textContent = getRandomItem(gymTimes);
+    card.querySelector('.avatar-image').src = getRandomAvatarUrl(userId);
+    
+    // Add error handling for images
+    card.querySelector('.avatar-image').onerror = function() {
+      // Fallback to a simpler but still sporty avatar
+      this.src = `https://api.dicebear.com/7.x/avataaars/svg?seed=backup-${userId}&backgroundColor=b6e3f4&mouth=smile&eyes=happy&style=circle`;
+    };
+  });
+
+  // Modified swipe handling
+  const cards = document.querySelectorAll('.user-card');
   let current = 0;
-  let isSwiping = false; 
+  let isSwiping = false;
 
   document.addEventListener('keydown', function(event) {
-    if (isSwiping) return; // Prevent multiple swipes at once
+    if (isSwiping) return;
     if (event.key === "ArrowRight") {
       swipe('like');
     } else if (event.key === "ArrowLeft") {
@@ -78,17 +246,55 @@
     const card = cards[current];
     if (!card) return;
 
-    const clubId = card.dataset.clubId;
-    isSwiping = true; // Prevent multiple swipes
+    const userId = card.dataset.userId;
+    isSwiping = true;
 
-    // Add animation class
     if (action === 'like') {
-      card.classList.add('swipe-right');
-    } else if (action === 'dislike') {
-      card.classList.add('swipe-left');
+        card.classList.add('swipe-right');
+        
+        // Collect user data
+        const userData = {
+            id: userId,
+            name: card.querySelector('.explore-title').textContent,
+            description: card.querySelector('.random-description').textContent,
+            email: card.querySelector('.user-text').children[1].textContent.split(': ')[1],
+            preferredTime: card.querySelector('.random-time').textContent,
+            avatar: card.querySelector('.avatar-image').src
+        };
+
+        // Add to cart
+        if (window.addBuddyToCart) {
+            window.addBuddyToCart(userData);
+        } else {
+            // Store in localStorage for cart page to pick up
+            const likedBuddies = JSON.parse(localStorage.getItem('likedBuddies') || '[]');
+            likedBuddies.unshift(userData);
+            localStorage.setItem('likedBuddies', JSON.stringify(likedBuddies));
+        }
+
+        // Send to backend
+        try {
+            const response = await fetch('/users/like/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken'),
+                },
+                body: JSON.stringify(userData)
+            });
+            
+            const result = await response.json();
+            if (result.isMatch) {
+                alert(`🎉 It's a match with ${userData.name}! Check your matches in the cart.`);
+            }
+        } catch (err) {
+            console.error("Failed to save like:", err);
+        }
+    } else {
+        card.classList.add('swipe-left');
     }
 
-    // Wait for animation to complete before hiding and showing next
+    // Wait for animation to complete
     setTimeout(() => {
       card.style.display = 'none';
       card.classList.remove('swipe-left', 'swipe-right');
@@ -97,23 +303,16 @@
 
       if (current < cards.length) {
         cards[current].style.display = 'block';
+        // Generate new random description and time for next card
+        const nextUserId = current + 1;
+        cards[current].querySelector('.random-description').textContent = getRandomItem(descriptions);
+        cards[current].querySelector('.random-time').textContent = getRandomItem(gymTimes);
+        cards[current].querySelector('.avatar-image').src = getRandomAvatarUrl(nextUserId);
       } else {
-        alert("🎉 You've reached the end!");
+        alert("🎉 You've reached the end of potential gym buddies!");
       }
-      isSwiping = false; // Allow next swipe
-    }, 500); // Match your CSS transition time
-
-    // Send swipe to backend
-    try {
-      await fetch(`/clubs/swipe/${clubId}/${action}/`, {
-        method: 'POST',
-        headers: {
-          'X-CSRFToken': getCookie('csrftoken'),
-        },
-      });
-    } catch (err) {
-      console.error("Swipe failed:", err);
-    }
+      isSwiping = false;
+    }, 500);
   }
 
   // CSRF helper function
@@ -131,5 +330,83 @@
     }
     return cookieValue;
   }
+
+  // Add this JavaScript after your existing script
+  document.getElementById('timeFilter').addEventListener('change', function() {
+    const selectedTime = this.value;
+    const cards = document.querySelectorAll('.user-card');
+    
+    cards.forEach(card => {
+      const cardTime = card.querySelector('.random-time').textContent;
+      
+      if (selectedTime === '') {
+        // Show all cards if 'All Times' is selected
+        card.style.display = current === Array.from(cards).indexOf(card) ? 'block' : 'none';
+      } else {
+        // Check if the card's time matches the filter
+        const matches = matchesTimeFilter(cardTime, selectedTime);
+        if (!matches) {
+          card.style.display = 'none';
+        } else {
+          card.style.display = current === Array.from(cards).indexOf(card) ? 'block' : 'none';
+        }
+      }
+    });
+
+    // Reset current to first visible card
+    current = Array.from(cards).findIndex(card => card.style.display !== 'none');
+    if (current === -1) {
+      alert("No gym buddies found for this time preference! Try another time slot.");
+    }
+  });
+
+  function matchesTimeFilter(cardTime, filterValue) {
+    const timeMap = {
+      'early-morning': 'Early Morning (5AM-7AM)',
+      'morning': 'Morning (8AM-11AM)',
+      'lunch': 'Lunch Time (11AM-2PM)',
+      'afternoon': 'Afternoon (2PM-5PM)',
+      'evening': 'Evening (5PM-8PM)',
+      'night': 'Night (8PM-10PM)',
+      'weekends': 'Weekends Only',
+      'flexible': 'Flexible Schedule'
+    };
+    
+    return cardTime.includes(timeMap[filterValue]);
+  }
+
+  // Update the avatar styling
+  const avatarStyle = document.createElement('style');
+  avatarStyle.textContent = `
+    .user-avatar {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;  /* Make avatars circular */
+      overflow: hidden;
+      margin-bottom: 20px;
+      background-color: #f5f5f5;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 4px solid #fff;
+    }
+
+    .avatar-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      background-color: transparent;
+    }
+
+    /* Enhanced hover effect */
+    .user-avatar:hover {
+      transform: scale(1.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+    }
+  `;
+  document.head.appendChild(avatarStyle);
 </script>
 
